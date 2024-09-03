@@ -1,0 +1,10 @@
+{
+    "usuarioSinProblema": {
+      "username": "standard_user",
+      "password": "secret_sauce"
+    },
+    "usuarioConProblema": {
+      "username": "problem_user",
+      "password": "secret_sauce"
+    }
+  }

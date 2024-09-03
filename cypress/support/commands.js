@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+// Comando para iniciar sesión
+Cypress.Commands.add('login', (userType) => {
+    cy.fixture('usuarios').then((users) => {
+      const user = users[userType];
+      cy.get('[data-test=username]').type(user.username);
+      cy.get('[data-test=password]').type(user.password);
+    });
+  });
+  
+  // Comando para llenar formulario checkout
+  Cypress.Commands.add('checkoutForm', (firstName, lastName, zipCode) => {
+    cy.get('[data-test=firstName]').type(firstName);
+    cy.get('[data-test=lastName]').type(lastName);
+    cy.get('[data-test=postalCode]').type(zipCode);
+    
+  });
+  
