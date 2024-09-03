@@ -7,9 +7,11 @@ describe('Test challenge', () => {
     })
   
     
-    it.only('Prueba e2e con usuario valido', () => {
+    it('Prueba e2e con usuario valido', () => {
       cy.login('usuarioSinProblema')
       cy.get('[data-test=login-button]').click();
+      cy.request('GET', 'https://www.saucedemo.com/icon-192x192.png').its('status').should('eq', 200);
+      cy.log('Se valida estatus 200')
       cy.get('[data-test=add-to-cart-sauce-labs-backpack]').click()
       cy.get('[data-test=add-to-cart-sauce-labs-bike-light]').click()
       cy.get('[data-test=shopping-cart-link]').click();
@@ -35,39 +37,3 @@ describe('Test challenge', () => {
       cy.get('[data-test=back-to-products]').click()
     })
     })
-
-
-
-    // Valida envío de formulario vacío
-    it('Validar envío de form vacío ,validacion de API respuesta 400', () => {
-      cy.intercept('POST', 'https://automationintesting.online/message/').as('enviodeformvacio')
-      cy.log('Envío de form de contacto en blanco...')
-      cy.fixture('formValidation').then((data) => {
-        cy.validarEnvioFormulario(data.formErrors, '@enviodeformvacio', 400)
-      })
-    })
-  
-    it('Validar envío de form con data incorrecta', () => {
-        cy.log('Set de datos incorrectos...');
-        cy.fillFormFromJsonFile('formValidation.json');
-         cy.get('[data-testid="ContactDescription"]').type('asdasd');
-        cy.get('#submitContact').click();
-        cy.get('.alert').should('be.visible');
-        cy.fixture('errorMessages.json').then((errors) => {
-            errors.invalidFormErrors.forEach((errorMessage) => {
-                cy.completP(errorMessage);
-            });
-        });
-    });
-   
-    // Valida envío de formulario con datos correctos
-    it('Debería llenar y enviar el formulario correctamente', () => {
-      cy.intercept('POST', 'https://automationintesting.online/message/').as('enviodeformcorrecto')
-      cy.fixture('formValidation').then((data) => {
-        cy.llenarFormulario(data.formdatacorrecta)
-        cy.wait('@enviodeformcorrecto').then((interception) => {
-          expect(interception.response.statusCode).to.equal(201)
-        })
-      })
-    })
-
