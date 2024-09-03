@@ -32,8 +32,6 @@ describe('Test challenge', () => {
       cy.get('[data-test=checkout]').click()
       cy.checkoutForm('juan', 'sterling', '410004')
       cy.get('[data-test=continue]').click();
-      cy.get('[data-test=finish]').click()
-      cy.get('[data-test=complete-header]').should('contain', 'Thank you for your order!')
-      cy.get('[data-test=back-to-products]').click()
+      cy.get('[data-test="error"]').should('have.css', 'color', 'rgb(255, 255, 255)')
     })
     })
